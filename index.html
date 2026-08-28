@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hannilyn Galario — Virtual Assistant Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:      #faf6ee;
+    --page-2:    #f2ecdd;
+    --card:      #ffffff;
+    --ink:       #2b2a28;
+    --ink-soft:  #6b6a62;
+    --sage:      #6f8f72;
+    --sage-deep: #4f6b52;
+    --coral:     #e8895c;
+    --coral-soft:#f6cdb4;
+    --blue:      #6c88a8;
+    --dot:       #ddd4bd;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--page); color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--sage-deep); outline-offset:3px; }
+  h1,h2,h3{ font-family:'Work Sans', sans-serif; }
+  .hand{ font-family:'Caveat', cursive; }
+
+  .shell{ display:flex; min-height:100vh; }
+
+  /* ---------- planner tab rail ---------- */
+  .rail{
+    width:88px; flex:none;
+    background:var(--sage-deep);
+    display:flex; flex-direction:column; align-items:center;
+    padding:26px 0; gap:6px;
+    position:sticky; top:0; height:100vh;
+  }
+  .rail-logo{
+    width:46px; height:46px; border-radius:50%;
+    background:var(--page); color:var(--sage-deep);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Caveat', cursive; font-weight:700; font-size:22px;
+    margin-bottom:22px;
+  }
+  .rail a{
+    writing-mode:vertical-rl; text-orientation:mixed;
+    text-decoration:none; color:#e7efe6;
+    font-size:12.5px; letter-spacing:.05em; font-weight:600;
+    padding:14px 0; width:100%; text-align:center;
+    border-left:3px solid transparent;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .rail a:hover, .rail a:focus-visible{ background:rgba(255,255,255,0.08); border-left-color:var(--coral); }
+  @media (max-width:860px){
+    .rail{
+      position:fixed; bottom:0; left:0; right:0; top:auto; width:100%; height:auto;
+      flex-direction:row; overflow-x:auto; padding:10px 14px; z-index:50; gap:2px;
+    }
+    .rail-logo{ display:none; }
+    .rail a{ writing-mode:horizontal-tb; padding:8px 12px; border-left:none; border-bottom:3px solid transparent; white-space:nowrap; }
+    .rail a:hover{ border-left-color:transparent; border-bottom-color:var(--coral); }
+    body{ padding-bottom:52px; }
+  }
+
+  .main{ flex:1; min-width:0; }
+  .wrap{ max-width:960px; margin:0 auto; padding:0 34px; }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  section{ padding:70px 0; }
+  .tab-label{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:12px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--sage-deep);
+    background:var(--coral-soft); padding:6px 14px; border-radius:999px;
+    margin-bottom:20px;
+  }
+  .tab-label::before{ content:"●"; color:var(--coral); font-size:9px; }
+  h2.sec-title{
+    font-size:clamp(28px,3.6vw,38px); font-weight:700; margin:0 0 34px; color:var(--ink);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:64px 0 30px; }
+  .hero-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:50px; align-items:center; }
+  @media (max-width:820px){ .hero-grid{ grid-template-columns:1fr; gap:36px; } }
+
+  .greet{ font-family:'Caveat', cursive; font-weight:700; font-size:34px; color:var(--coral); margin:0 0 6px; display:flex; align-items:center; gap:10px; }
+  h1.name{ font-size:clamp(38px,5.6vw,58px); font-weight:700; line-height:1.05; margin:0 0 20px; color:var(--ink); }
+  .role-line{ font-size:17.5px; color:var(--ink-soft); line-height:1.65; max-width:48ch; margin:0 0 28px; }
+  .role-line b{ color:var(--ink); }
+
+  .hero-cta{ display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:14px;
+    padding:13px 24px; border-radius:10px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--sage-deep); color:#fff; border:1.5px solid var(--sage-deep);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{ background:var(--sage); transform:translateY(-2px); }
+  .btn.ghost{ background:transparent; color:var(--ink); border-color:var(--ink); }
+  .btn.ghost:hover{ background:var(--ink); color:#fff; }
+
+  /* polaroid photo */
+  .polaroid-wrap{ justify-self:center; }
+  .polaroid{
+    background:#fff; padding:14px 14px 46px; box-shadow:0 14px 30px rgba(43,42,40,0.16);
+    width:260px; transform:rotate(2.5deg);
+    position:relative; animation:drop .6s ease both;
+  }
+  @keyframes drop{ from{ opacity:0; transform:translateY(14px) rotate(2.5deg);} to{ opacity:1; transform:translateY(0) rotate(2.5deg);} }
+  .polaroid img{ width:100%; aspect-ratio:1/1.08; object-fit:cover; display:block; }
+  .polaroid .cap{ font-family:'Caveat', cursive; font-size:20px; color:var(--sage-deep); text-align:center; margin-top:10px; }
+  .tape{
+    position:absolute; width:70px; height:26px; background:rgba(232,137,92,0.55);
+    top:-12px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    box-shadow:0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  /* week glance */
+  .week-glance{ display:flex; gap:6px; margin-top:26px; }
+  .day{
+    width:34px; height:34px; border-radius:8px; background:var(--card);
+    border:1.5px solid var(--dot); display:flex; align-items:center; justify-content:center;
+    font-family:'Work Sans', sans-serif; font-size:11px; font-weight:600; color:var(--ink-soft);
+  }
+  .day.done{ background:var(--sage); border-color:var(--sage); color:#fff; }
+
+  /* ---------- about : sticky note ---------- */
+  .about-note{
+    background:#fff9e0; border:1px solid #ecdf9e; border-radius:2px;
+    padding:34px 36px; box-shadow:0 8px 20px rgba(43,42,40,0.08);
+    transform:rotate(-0.6deg); position:relative;
+  }
+  .about-note::before{
+    content:""; position:absolute; width:60px; height:22px; background:rgba(108,136,168,0.45);
+    top:-10px; left:36px; transform:rotate(-4deg);
+  }
+  .about-note p.lede{ font-family:'Caveat', cursive; font-size:26px; color:var(--sage-deep); margin:0 0 16px; line-height:1.4; }
+  .about-note p{ font-size:15.5px; line-height:1.75; color:var(--ink); margin:0 0 14px; }
+  .about-note p:last-child{ margin-bottom:0; }
+
+  /* ---------- skills : index cards ---------- */
+  .idx-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:780px){ .idx-grid{ grid-template-columns:1fr; } }
+  .idx-card{
+    background:var(--card); border-radius:12px; padding:24px 22px;
+    border-top:5px solid var(--sage);
+    box-shadow:0 6px 16px rgba(43,42,40,0.07);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .idx-card:nth-child(2){ border-top-color:var(--coral); }
+  .idx-card:nth-child(3){ border-top-color:var(--blue); }
+  .idx-card:hover{ transform:translateY(-4px); box-shadow:0 14px 26px rgba(43,42,40,0.13); }
+  .idx-card h3{ font-size:17px; margin:0 0 10px; color:var(--ink); }
+  .idx-card p{ font-size:14px; line-height:1.65; color:var(--ink-soft); margin:0; }
+
+  /* ---------- education : weekly spread ---------- */
+  .spread{ display:flex; flex-direction:column; gap:14px; }
+  .spread-row{
+    display:grid; grid-template-columns:120px 1fr; gap:20px;
+    background:var(--card); border-radius:10px; padding:20px 22px;
+    border-left:5px solid var(--blue);
+    box-shadow:0 4px 12px rgba(43,42,40,0.05);
+  }
+  @media (max-width:640px){ .spread-row{ grid-template-columns:1fr; } }
+  .spread-row:nth-child(2n){ border-left-color:var(--sage); }
+  .spread-row:nth-child(3n){ border-left-color:var(--coral); }
+  .spread-tag{ font-family:'Caveat', cursive; font-size:22px; color:var(--ink-soft); align-self:start; }
+  .spread-row h3{ font-size:16.5px; margin:0 0 4px; color:var(--ink); }
+  .spread-row .school{ font-size:13px; color:var(--ink-soft); margin-bottom:8px; font-weight:500; }
+  .spread-row p{ font-size:14px; line-height:1.65; color:var(--ink-soft); margin:0; max-width:64ch; }
+
+  /* ---------- experience : checklist entries ---------- */
+  .entry{
+    background:var(--card); border-radius:12px; padding:28px 30px; margin-bottom:20px;
+    box-shadow:0 6px 16px rgba(43,42,40,0.07);
+  }
+  .entry-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .entry-head h3{ font-size:19px; margin:0; color:var(--ink); }
+  .entry-head span{ font-size:13px; color:var(--sage-deep); font-weight:600; }
+  .check-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .check-list li{ display:flex; gap:10px; font-size:14.5px; line-height:1.6; color:var(--ink-soft); }
+  .check-list li::before{
+    content:"✓"; flex:none; width:20px; height:20px; border-radius:6px;
+    background:var(--sage); color:#fff; font-size:12px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; margin-top:1px;
+  }
+  .highlight{ background:linear-gradient(180deg, transparent 60%, var(--coral-soft) 60%); padding:0 2px; color:var(--ink); font-weight:600; }
+
+  /* ---------- orgs : corkboard notes ---------- */
+  .cork{
+    background:var(--page-2); border-radius:16px; padding:38px 32px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  @media (max-width:780px){ .cork{ grid-template-columns:1fr; } }
+  .sticky{
+    background:#fef6c8; padding:20px 20px 24px; box-shadow:0 8px 18px rgba(43,42,40,0.12);
+    font-size:14px; line-height:1.6; color:var(--ink);
+  }
+  .sticky:nth-child(2){ background:#d9ecd2; transform:rotate(-1.5deg); }
+  .sticky:nth-child(3){ background:#dbe6f2; transform:rotate(1.2deg); }
+  .sticky:nth-child(1){ transform:rotate(1.5deg); }
+  .sticky p.q{ font-family:'Caveat', cursive; font-size:19px; margin:0 0 12px; line-height:1.45; }
+  .sticky .role{ font-size:12px; color:var(--ink-soft); font-weight:600; }
+
+  /* ---------- tools : checklist grid ---------- */
+  .tool-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  @media (max-width:780px){ .tool-grid{ grid-template-columns:1fr; } }
+  .tool-col h4{ font-size:14px; color:var(--sage-deep); margin:0 0 14px; font-weight:700; }
+  .tool-col ul{ list-style:none; margin:0; padding:0; }
+  .tool-col li{ display:flex; align-items:center; gap:9px; font-size:14px; color:var(--ink); padding:7px 0; border-bottom:1px dashed var(--dot); }
+  .tool-col li::before{ content:""; width:14px; height:14px; border-radius:4px; border:1.5px solid var(--sage); flex:none; }
+
+  /* ---------- footer ---------- */
+  footer{ background:var(--sage-deep); color:#fff; padding:76px 0 48px; margin-top:20px; }
+  .foot-inner{ text-align:center; }
+  .foot-inner .hand{ font-size:26px; color:var(--coral-soft); margin-bottom:10px; display:block; }
+  footer h2{ font-size:clamp(30px,4.8vw,48px); margin:0 0 28px; }
+  .foot-btn{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:14px;
+    padding:15px 30px; background:var(--coral); color:#fff; border-radius:10px;
+    text-decoration:none; display:inline-flex; gap:8px; align-items:center;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .foot-btn:hover{ background:#d4744a; transform:translateY(-2px); }
+  .foot-meta{ margin-top:36px; font-size:12.5px; color:#cfe0cd; }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="rail" aria-label="Section navigation">
+      <div class="rail-logo">HG</div>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#orgs">Orgs</a>
+      <a href="#tools">Tools</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <main class="main">
+      <header class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="greet">Hi, I'm Hanni 👋</p>
+            <h1 class="name">Your next Virtual Assistant, already trained on accuracy.</h1>
+            <p class="role-line">Four years as a <b>Quality Analyst &amp; Supervisor</b> in the BPO industry taught me how to keep dozens of moving parts organized without dropping a single one — now I bring that to inboxes, calendars, and client operations.</p>
+            <div class="hero-cta">
+              <a class="btn" href="#experience">See my experience</a>
+              <a class="btn ghost" href="#contact">Let's talk</a>
+            </div>
+            <div class="week-glance" aria-hidden="true">
+              <div class="day done">M</div>
+              <div class="day done">T</div>
+              <div class="day done">W</div>
+              <div class="day done">T</div>
+              <div class="day">F</div>
+            </div>
+          </div>
+          <div class="polaroid-wrap">
+            <div class="polaroid">
+              <div class="tape"></div>
+              <img src="hanni.jpg" alt="Hannilyn Galario">
+              <div class="cap">that's me!</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="about">
+        <div class="wrap">
+          <span class="tab-label">About Me</span>
+          <h2 class="sec-title">The short version</h2>
+          <div class="about-note">
+            <p class="lede">"I'm excited to bring my professionalism and efficiency to help clients stay organized and achieve their goals."</p>
+            <p>I have a background as a Quality Analyst and Supervisor in the BPO industry, where I built strong skills in communication, organization, and attention to detail. Across roles as a QA Analyst and Supervisor, I managed performance monitoring, report analysis, and process improvements — plus supervised agents, sharpening my ability to juggle multiple responsibilities without losing accuracy under pressure.</p>
+            <p>I'm new to the Virtual Assistant field, but that fast-paced environment prepared me well for remote administrative work — data entry, email management, scheduling, and client support.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="wrap">
+          <span class="tab-label">Skills &amp; Expertise</span>
+          <h2 class="sec-title">What I'm good at</h2>
+          <div class="idx-grid">
+            <div class="idx-card">
+              <h3>Administrative Support &amp; Data Management</h3>
+              <p>Organizing files, maintaining accurate records, and managing reports. Skilled in MS Office (Excel, Word, PowerPoint) and handling confidential information.</p>
+            </div>
+            <div class="idx-card">
+              <h3>Communication &amp; Client Support</h3>
+              <p>Professional email management and coordination. Handling client inquiries, preparing reports, and keeping information flowing between teams.</p>
+            </div>
+            <div class="idx-card">
+              <h3>Quality Assurance &amp; Training</h3>
+              <p>Monitoring performance, giving feedback, and running training sessions to improve quality and process understanding.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="education">
+        <div class="wrap">
+          <span class="tab-label">Education</span>
+          <h2 class="sec-title">Where I learned it</h2>
+          <div class="spread">
+            <div class="spread-row">
+              <div class="spread-tag">BSBA</div>
+              <div>
+                <h3>Bachelor of Science in Business Administration</h3>
+                <div class="school">Mindanao State University — Marawi City</div>
+                <p>Core areas of business management, finance, and administration — a foundation in organizational operations, client relations, and office management.</p>
+              </div>
+            </div>
+            <div class="spread-row">
+              <div class="spread-tag">Tech</div>
+              <div>
+                <h3>Computer Hardware Servicing</h3>
+                <div class="school">Butuan City of Arts and Trades</div>
+                <p>Technical-vocational program in computer assembly, repair, and maintenance, with hands-on troubleshooting.</p>
+              </div>
+            </div>
+            <div class="spread-row">
+              <div class="spread-tag">Finance</div>
+              <div>
+                <h3>Bookkeeping</h3>
+                <div class="school">Butuan City of Arts and Trades</div>
+                <p>Fundamentals of financial recordkeeping, account management, and business documentation.</p>
+              </div>
+            </div>
+            <div class="spread-row">
+              <div class="spread-tag">HS</div>
+              <div>
+                <h3>High School Diploma</h3>
+                <div class="school">Libertad National High School</div>
+                <p>Strong academic foundation and interpersonal skills through school-based activities.</p>
+              </div>
+            </div>
+            <div class="spread-row">
+              <div class="spread-tag">Elem.</div>
+              <div>
+                <h3>Elementary Education</h3>
+                <div class="school">Malitbog Central Elementary School</div>
+                <p>Basic education that established early discipline and study habits.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <div class="wrap">
+          <span class="tab-label">Work Experience</span>
+          <h2 class="sec-title">Where I've put it to work</h2>
+
+          <div class="entry">
+            <div class="entry-head"><h3>Supervisor &amp; Quality Assurance</h3><span>Startek Philippines</span></div>
+            <ul class="check-list">
+              <li>Conducted regular call and transaction audits to ensure compliance with quality standards.</li>
+              <li>Provided coaching and feedback to agents, improving accuracy and satisfaction scores.</li>
+              <li>Trained new hires and existing team members on process updates and quality metrics.</li>
+              <li>Contributed to a <span class="highlight">20% improvement</span> in team quality performance through structured monitoring.</li>
+            </ul>
+          </div>
+
+          <div class="entry">
+            <div class="entry-head"><h3>Escalation Team Specialist</h3><span>Startek Philippines</span></div>
+            <ul class="check-list">
+              <li>Handled complex and high-priority customer cases requiring in-depth resolution.</li>
+              <li>Coordinated with multiple departments to resolve escalated concerns.</li>
+              <li>Maintained detailed case documentation and follow-ups for timely closure.</li>
+              <li><span class="highlight">Recognized for professionalism and empathy</span> in sensitive customer interactions.</li>
+            </ul>
+          </div>
+
+          <div class="entry">
+            <div class="entry-head"><h3>Customer Service Specialist</h3><span>Startek Philippines</span></div>
+            <ul class="check-list">
+              <li>Delivered high-quality customer service via phone and digital platforms.</li>
+              <li>Consistently <span class="highlight">met and exceeded KPIs</span>, including handling time and satisfaction scores.</li>
+              <li>Assisted in documenting common customer issues to support process improvement.</li>
+              <li>Built strong rapport with customers, enhancing service experience and retention.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="orgs">
+        <div class="wrap">
+          <span class="tab-label">Organizations</span>
+          <h2 class="sec-title">Beyond the job description</h2>
+          <div class="cork">
+            <div class="sticky">
+              <p class="q">"Contributed to quality monitoring tools that improved team performance accuracy and efficiency, supporting customer satisfaction and service excellence."</p>
+              <div class="role">Quality Assurance Team Member — Startek Philippines</div>
+            </div>
+            <div class="sticky">
+              <p class="q">"Collaborated with team leaders and QA specialists to analyze trends and standardize evaluation forms and reporting procedures."</p>
+              <div class="role">Quality Support Committee — Startek Philippines</div>
+            </div>
+            <div class="sticky">
+              <p class="q">"Mentored new QA trainees and facilitated refresher sessions, joining calibration sessions to align standards with client expectations."</p>
+              <div class="role">Training &amp; Calibration Support — Startek Philippines</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tools">
+        <div class="wrap">
+          <span class="tab-label">My Tech Stack</span>
+          <h2 class="sec-title">What's in my toolbox</h2>
+          <div class="tool-grid">
+            <div class="tool-col">
+              <h4>Lead Tracking &amp; CRM</h4>
+              <ul>
+                <li>ServiceNow</li>
+                <li>Startek Internal CRM Tools</li>
+                <li>Ticket &amp; escalation tracking systems</li>
+              </ul>
+            </div>
+            <div class="tool-col">
+              <h4>Management &amp; Communication</h4>
+              <ul>
+                <li>Microsoft Teams</li>
+                <li>Outlook</li>
+                <li>Google Workspace (Docs, Sheets, Drive, Meet)</li>
+                <li>SharePoint</li>
+              </ul>
+            </div>
+            <div class="tool-col">
+              <h4>Outreach Tools</h4>
+              <ul>
+                <li>Excel (pivot tables, data validation)</li>
+                <li>PowerPoint reporting</li>
+                <li>Word documentation</li>
+                <li>Data tracking templates &amp; audit logs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer id="contact">
+    <div class="wrap foot-inner">
+      <span class="hand">got a task on your list?</span>
+      <h2>Let's work together.</h2>
+      <div style="display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;">
+        <a class="foot-btn" href="https://www.linkedin.com/in/hannilyn-galario-467681251/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn →</a>
+        <span style="font-family:'Inter', sans-serif;font-size:14px;color:#fff;font-weight:500;">Hannigalario@gmail.com</span>
+      </div>
+      <p class="foot-meta">Hannilyn Galario · Virtual Assistant · Remote, Philippines</p>
+    </div>
+  </footer>
+</body>
+</html>
